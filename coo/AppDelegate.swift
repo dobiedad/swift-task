@@ -8,7 +8,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
     public func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
 
         let message:Message = NSEntityDescription.insertNewObject(forEntityName: "Message", into: CoredataController.persistentContainer.viewContext) as! Message
-        let data:AnyObject = remoteMessage.appData["jsonData"] as AnyObject
+        let data:AnyObject = remoteMessage.appData["jsondata"] as AnyObject
 
         message.initWithNotificationData(data:data)
         CoredataController.saveContext()
@@ -82,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
 
     func saveNotification(notification: UNNotification){
         let message:Message = NSEntityDescription.insertNewObject(forEntityName: "Message", into: CoredataController.persistentContainer.viewContext) as! Message
-        message.initWithNotificationData(data:notification.request.content.userInfo["jsonData"] as AnyObject)
+        message.initWithNotificationData(data:notification.request.content.userInfo["jsondata"] as AnyObject)
         CoredataController.saveContext()
     }
 

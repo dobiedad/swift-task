@@ -23,7 +23,7 @@ extension Message {
             result = (data as AnyObject) as! [String : AnyObject]
         }
         
-        self.senderName = result["senderName"] as! String?
+        self.senderName = result["sendername"] as! String?
         self.id = result["id"] as! Int32
         self.message = result["message"] as! String?
     }
