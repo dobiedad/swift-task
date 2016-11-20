@@ -44,9 +44,33 @@ class MessageTableViewController: UITableViewController {
         self.navigationController?.pushViewController(vc, animated: true)
         
     }
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        self.tableView.reloadData()
+
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        self.tableView.beginUpdates()
     }
+    
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+        
+        switch type {
+        case .insert:
+            self.tableView.insertRows(at: [newIndexPath! as IndexPath], with: .fade)
+        case .delete:
+            self.tableView.deleteRows(at: [indexPath! as IndexPath], with: .fade)
+        case .update:
+            print("")
+            self.configureCell(cell: self.tableView.cellForRow(at: indexPath! as IndexPath)!, indexPath: indexPath!)
+        case .move:
+            self.tableView.deleteRows(at: [indexPath! as IndexPath], with: .fade)
+            self.tableView.insertRows(at: [indexPath! as IndexPath], with: .fade)
+        }
+    }
+    
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        self.tableView.endUpdates()
+    }
+    
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
                 let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "cell")
@@ -55,8 +79,6 @@ class MessageTableViewController: UITableViewController {
                 configureCell(cell: cell, indexPath: indexPath as NSIndexPath)
                 return cell
     }
-    
-    
 
 }
 

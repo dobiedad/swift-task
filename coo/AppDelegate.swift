@@ -82,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
 
     func saveNotification(notification: UNNotification){
         let message:Message = NSEntityDescription.insertNewObject(forEntityName: "Message", into: CoredataController.persistentContainer.viewContext) as! Message
-        message.initWithNotificationData(data:notification.request.content.userInfo["jsonData"] as! NSDictionary)
+        message.initWithNotificationData(data:notification.request.content.userInfo["jsonData"] as AnyObject)
         CoredataController.saveContext()
     }
 
